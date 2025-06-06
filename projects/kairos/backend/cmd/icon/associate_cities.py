@@ -64,8 +64,12 @@ def associate_cities_with_cells(conn):
     print(f"Found {len(cities)} cities/towns/villages to process")
     
     associations = []
+    no_cell_cities = []
+    
     for city_id, name, name_en, lat, lon, population in cities:
-        # Find nearest cell
+        display_name = name_en or name
+        
+        # First try within 50km
         cur.execute("""
             SELECT id, ST_Distance(
                 ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography,
@@ -82,14 +86,34 @@ def associate_cities_with_cells(conn):
         """, (lon, lat, lon, lat))
         
         result = cur.fetchone()
+        
+        # If no cell within 50km, try 200km
+        if not result:
+            cur.execute("""
+                SELECT id, ST_Distance(
+                    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography,
+                    ST_SetSRID(ST_MakePoint(%s, %s), 4326)::geography
+                ) / 1000 as distance_km
+                FROM icon_cells
+                WHERE ST_DWithin(
+                    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography,
+                    ST_SetSRID(ST_MakePoint(%s, %s), 4326)::geography,
+                    200000  -- 200km radius
+                )
+                ORDER BY distance_km
+                LIMIT 1
+            """, (lon, lat, lon, lat))
+            result = cur.fetchone()
+        
         if result:
             cell_id, distance = result
             associations.append((city_id, cell_id, distance))
             
-            # Print progress for major cities
-            if population and population > 10000:
-                display_name = name_en or name
-                print(f"  {display_name} (pop: {population:,}) → Cell {cell_id} ({distance:.1f} km)")
+            # Print progress
+            print(f"  {display_name} → Cell {cell_id} ({distance:.1f} km)")
+        else:
+            no_cell_cities.append((display_name, lat, lon))
+            print(f"  {display_name} → NO CELL FOUND (outside coverage area)")
     
     # Insert associations
     if associations:
@@ -106,6 +130,12 @@ def associate_cities_with_cells(conn):
         
         conn.commit()
         print(f"\n✓ Associated {len(associations)} cities with grid cells")
+    
+    # Show cities without coverage
+    if no_cell_cities:
+        print(f"\n⚠ {len(no_cell_cities)} cities outside ICON cell coverage:")
+        for city_name, lat, lon in no_cell_cities:
+            print(f"  - {city_name} ({lat:.4f}°N, {lon:.4f}°E)")
     
     # Show statistics
     cur.execute("""
