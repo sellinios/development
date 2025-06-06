@@ -1,0 +1,22 @@
+# robots.txt for kairos.gr
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /*.js.map$
+
+# Sitemap location
+Sitemap: https://kairos.gr/sitemap.xml
+
+# Crawl-delay for bots (in seconds)
+Crawl-delay: 1
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

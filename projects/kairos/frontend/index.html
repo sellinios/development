@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Καιρός - Πρόγνωση Καιρού για την Ελλάδα</title>
+  <link rel="icon" type="image/svg+xml" href="/weather-icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Πρόγνωση καιρού σε πραγματικό χρόνο για την Ελλάδα με το μοντέλο ICON-EU. Ακριβή δεδομένα καιρού για Αθήνα, Θεσσαλονίκη και όλες τις ελληνικές πόλεις.">
+  <meta name="keywords" content="καιρός, ελλάδα, πρόγνωση, αθήνα, θεσσαλονίκη, weather, greece, forecast">
+  <meta name="author" content="Καιρός Weather">
+  <link rel="canonical" href="https://kairos.gr/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kairos.gr/">
+  <meta property="og:title" content="Καιρός - Πρόγνωση Καιρού για την Ελλάδα">
+  <meta property="og:description" content="Πρόγνωση καιρού σε πραγματικό χρόνο για την Ελλάδα με το μοντέλο ICON-EU">
+  <meta property="og:image" content="https://kairos.gr/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://kairos.gr/">
+  <meta property="twitter:title" content="Καιρός - Πρόγνωση Καιρού για την Ελλάδα">
+  <meta property="twitter:description" content="Πρόγνωση καιρού σε πραγματικό χρόνο για την Ελλάδα με το μοντέλο ICON-EU">
+  <meta property="twitter:image" content="https://kairos.gr/og-image.png">
+  
+  <!-- PWA -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Καιρός">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <!-- Performance -->
+  <link rel="dns-prefetch" href="https://api.kairos.gr">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.kairos.gr">
+  
+  <!-- Font loading optimized for performance -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"></noscript>
+  <!-- Weather icon is used as favicon, no need to preload separately -->
+  
+  <!-- DNS prefetch for faster loading -->
+  <link rel="dns-prefetch" href="//kairos.gr">
+  
+  <!-- Google Consent Mode -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // Default consent state - deny until user consents
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'personalization_storage': 'denied',
+      'security_storage': 'granted'
+    });
+  </script>
+  
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.googletagmanager.com https://*.google-analytics.com https://fonts.googleapis.com https://fundingchoicesmessages.google.com https://*.googleadservices.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.kairos.gr https://*.google-analytics.com https://*.googlesyndication.com https://fundingchoicesmessages.google.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com;">
+  
+  <!-- Critical CSS inline -->
+  <style>
+    /* Ad container space reservation */
+    .ad-container {
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      margin: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ad-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.01) 50%, transparent 70%);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    @media (max-width: 768px) {
+      .ad-container {
+        min-height: 100px;
+      }
+    }
+    
+    /* Fix for Google Funding Choices consent banner */
+    /* Hide consent UI until it's properly positioned */
+    .fc-consent-root {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 999999 !important;
+    }
+    
+    /* Show consent UI once loaded */
+    .fc-consent-root.fc-consent-root-visible {
+      opacity: 1;
+    }
+    
+    /* Ensure dialog stays at bottom */
+    .fc-dialog-container {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: auto !important;
+      transform: none !important;
+    }
+    
+    /* Prevent layout shift */
+    #fc-iframe-wrap {
+      position: fixed !important;
+      bottom: 0 !important;
+    }
+    /* Critical CSS for initial render */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #ffffff;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    #app {
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      z-index: -1;
+    }
+    
+    .header {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 2rem;
+      transform: translateZ(0); /* Force hardware acceleration */
+    }
+    
+    .loader {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    
+    .loader-sun {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      animation: pulse 2s ease-in-out infinite;
+      will-change: transform, opacity;
+      transform: translateZ(0);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+  </style>
+  
+  <!-- Remove duplicate font loading - handled by preload above -->
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Καιρός",
+    "alternateName": "Καιρός Ελλάδας",
+    "description": "Πρόγνωση καιρού σε πραγματικό χρόνο για την Ελλάδα με το μοντέλο ICON-EU. Ακριβή δεδομένα καιρού για Αθήνα, Θεσσαλονίκη και όλες τις ελληνικές πόλεις.",
+    "url": "https://kairos.gr",
+    "applicationCategory": "Weather",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Καιρός Weather",
+      "url": "https://kairos.gr"
+    },
+    "featureList": [
+      "Πρόγνωση καιρού σε πραγματικό χρόνο",
+      "Δεδομένα μοντέλου ICON-EU", 
+      "Καιρός ελληνικών πόλεων",
+      "Πρόγνωση 7 ημερών",
+      "Φιλική διεπαφή για κινητά"
+    ],
+    "screenshot": "https://kairos.gr/og-image.png"
+  }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  
+  
+  <!-- Google AdSense with Funding Choices - COMMENTED OUT FOR NOW (low traffic) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3131616609445146"
+     crossorigin="anonymous"></script> -->
+</body>
+</html>

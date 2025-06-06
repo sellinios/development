@@ -1,0 +1,29 @@
+[Unit]
+Description=Aethra Weather API Service
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=sellinios
+Group=sellinios
+WorkingDirectory=/home/sellinios/development/projects/aethra/backend
+
+# Environment
+Environment="PATH=/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="DB_PASSWORD=kairos123"
+Environment="POSTGRES_PASSWORD=kairos123"
+
+# Start command
+ExecStart=/home/sellinios/development/projects/aethra/backend/aethra-api
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

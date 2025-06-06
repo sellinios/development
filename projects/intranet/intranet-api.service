@@ -1,0 +1,25 @@
+[Unit]
+Description=Intranet API Service
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=sellinios
+Group=sellinios
+WorkingDirectory=/home/sellinios/development/projects/intranet
+ExecStart=/home/sellinios/development/projects/intranet/bin/intranet-api
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/var/log/intranet-api.log
+StandardError=append:/var/log/intranet-api.error.log
+
+# Environment variables
+Environment="PORT=8080"
+Environment="APP_ENV=production"
+EnvironmentFile=/home/sellinios/development/projects/intranet/.env
+
+# Security settings
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

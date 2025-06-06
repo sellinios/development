@@ -1,0 +1,19 @@
+
+# Weather data
+data/ICON-EU/
+data/icon/
+data/processed/
+data/weather/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+
+# Test files
+*_test.go
+*_example.go
+test_*.sh

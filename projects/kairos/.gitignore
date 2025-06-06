@@ -1,0 +1,94 @@
+# Binaries
+/backend/kairos-api
+/backend/aethra-api
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# Dependencies
+/backend/vendor/
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/backend/logs/
+
+# Data files
+/backend/data/ICON-EU/
+/backend/data/icon/
+/backend/data/weather/
+/backend/data/processed/
+*.grib2
+*.csv
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+/backend/venv/
+/backend/env/
+
+# Node.js (frontend)
+node_modules/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Certificates
+*.pem
+*.key
+*.crt
+*.cer
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Mac
+.AppleDouble
+.LSOverride
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+.Trash-*

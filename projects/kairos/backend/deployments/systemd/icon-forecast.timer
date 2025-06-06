@@ -1,0 +1,35 @@
+[Unit]
+Description=Run ICON-EU Weather Forecast Processor
+Requires=icon-forecast.service
+
+[Timer]
+# Run at specific times when ICON-EU data becomes available
+# ICON-EU runs at 00, 06, 12, 18 UTC
+# Data is typically available 2-3 hours after run time
+# So we check at: 03:00, 09:00, 15:00, 21:00 UTC
+
+# Convert to local time (assuming CEST = UTC+2)
+# 03:00 UTC = 05:00 CEST
+# 09:00 UTC = 11:00 CEST
+# 15:00 UTC = 17:00 CEST
+# 21:00 UTC = 23:00 CEST
+
+OnCalendar=05:00
+OnCalendar=11:00
+OnCalendar=17:00
+OnCalendar=23:00
+
+# Also run 30 minutes after each scheduled time as backup
+OnCalendar=05:30
+OnCalendar=11:30
+OnCalendar=17:30
+OnCalendar=23:30
+
+# Randomize start time by up to 5 minutes to avoid server overload
+RandomizedDelaySec=300
+
+# If the system was powered down when it should have run, run it when it starts
+Persistent=true
+
+[Install]
+WantedBy=timers.target

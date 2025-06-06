@@ -1,0 +1,22 @@
+[Unit]
+Description=Aethra Weather Data Processor
+Documentation=https://github.com/sellinios/aethra
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=oneshot
+User=aethra
+Group=aethra
+WorkingDirectory=/opt/aethra
+
+# Environment
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/opt/aethra/configs/aethra.env
+
+# Process weather data
+ExecStart=/opt/aethra/bin/aethra-processor -mode=all -cleanup -keep-hours=72
+
+# Logging
+StandardOutput=append:/opt/aethra/logs/processor.log
+StandardError=append:/opt/aethra/logs/processor-error.log

@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+zeus_env/
+venv/
+ENV/
+env/
+
+# Distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Zeus specific
+.ades_validated
+.version
+*.log
+*.db
+cronos.db
+lightning/cache/
+lightning/compiled/
+core/zeus_framework.egg-info/
+core/zeus_main.py
+core/.pytest_cache/
+core/.version
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

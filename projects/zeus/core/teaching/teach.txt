@@ -1,0 +1,213 @@
+# Zeus Pattern Teaching File
+# Execute these commands to teach Zeus many useful patterns
+# Usage: Copy and paste each line into Zeus CLI
+
+# ===== MATH OPERATIONS =====
+teach: add {a, b} -> {a + b} : adds two numbers
+teach: subtract {a, b} -> {a - b} : subtracts b from a
+teach: multiply {a, b} -> {a * b} : multiplies two numbers
+teach: divide {a, b} -> {a / b} : divides a by b
+teach: power {base, exp} -> {base ** exp} : raises base to power of exp
+teach: sqrt {n} -> {n ** 0.5} : square root of a number
+teach: abs {n} -> {abs(n)} : absolute value
+teach: mod {a, b} -> {a % b} : modulo operation
+teach: floor_div {a, b} -> {a // b} : floor division
+teach: negate {n} -> {-n} : negates a number
+teach: reciprocal {n} -> {1 / n} : reciprocal of a number
+teach: factorial {n} -> {1 if n <= 1 else n * factorial(n-1)} : factorial calculation
+
+# ===== COMPARISON PATTERNS =====
+teach: max {a, b} -> {a if a > b else b} : maximum of two numbers
+teach: min {a, b} -> {a if a < b else b} : minimum of two numbers
+teach: equals {a, b} -> {a == b} : checks equality
+teach: not_equals {a, b} -> {a != b} : checks inequality
+teach: greater {a, b} -> {a > b} : checks if a is greater than b
+teach: less {a, b} -> {a < b} : checks if a is less than b
+teach: greater_equal {a, b} -> {a >= b} : checks if a is greater or equal to b
+teach: less_equal {a, b} -> {a <= b} : checks if a is less or equal to b
+
+# ===== NUMBER PROPERTIES =====
+teach: isZero {n} -> {n == 0} : checks if number is zero
+teach: isPositive {n} -> {n > 0} : checks if number is positive
+teach: isNegative {n} -> {n < 0} : checks if number is negative
+teach: isEven {n} -> {n % 2 == 0} : checks if number is even
+teach: isOdd {n} -> {n % 2 != 0} : checks if number is odd
+teach: isWhole {n} -> {n == int(n)} : checks if number is whole
+teach: sign {n} -> {1 if n > 0 else -1 if n < 0 else 0} : returns sign of number
+
+# ===== ROUNDING OPERATIONS =====
+teach: round_to {n, digits} -> {round(n, digits)} : rounds to specified digits
+teach: ceil {n} -> {int(n) + 1 if n > int(n) else int(n)} : ceiling function
+teach: floor {n} -> {int(n)} : floor function
+teach: round_nearest {n} -> {round(n)} : rounds to nearest integer
+
+# ===== STRING OPERATIONS =====
+teach: concat {a, b} -> {str(a) + str(b)} : concatenates two values as strings
+teach: repeat {text, n} -> {str(text) * n} : repeats text n times
+teach: upper {text} -> {str(text).upper()} : converts to uppercase
+teach: lower {text} -> {str(text).lower()} : converts to lowercase
+teach: capitalize {text} -> {str(text).capitalize()} : capitalizes first letter
+teach: reverse {text} -> {str(text)[::-1]} : reverses a string
+teach: length {text} -> {len(str(text))} : gets length of text
+teach: trim {text} -> {str(text).strip()} : removes whitespace from ends
+teach: replace {text, old, new} -> {str(text).replace(str(old), str(new))} : replaces text
+teach: contains {text, substr} -> {str(substr) in str(text)} : checks if text contains substring
+teach: starts_with {text, prefix} -> {str(text).startswith(str(prefix))} : checks if text starts with prefix
+teach: ends_with {text, suffix} -> {str(text).endswith(str(suffix))} : checks if text ends with suffix
+
+# ===== LIST OPERATIONS =====
+teach: first {lst} -> {lst[0] if lst else None} : gets first element
+teach: last {lst} -> {lst[-1] if lst else None} : gets last element
+teach: second {lst} -> {lst[1] if len(lst) > 1 else None} : gets second element
+teach: third {lst} -> {lst[2] if len(lst) > 2 else None} : gets third element
+teach: count {lst} -> {len(lst)} : counts elements in list
+teach: sum_list {lst} -> {sum(lst)} : sums all elements in list
+teach: avg_list {lst} -> {sum(lst) / len(lst) if lst else 0} : average of list elements
+teach: max_list {lst} -> {max(lst) if lst else None} : maximum value in list
+teach: min_list {lst} -> {min(lst) if lst else None} : minimum value in list
+teach: join {lst, sep} -> {str(sep).join(str(x) for x in lst)} : joins list elements with separator
+
+# ===== LOGIC OPERATIONS =====
+teach: and {a, b} -> {a and b} : logical AND
+teach: or {a, b} -> {a or b} : logical OR
+teach: not {a} -> {not a} : logical NOT
+teach: xor {a, b} -> {(a and not b) or (not a and b)} : logical XOR
+teach: implies {a, b} -> {not a or b} : logical implication
+teach: iff {a, b} -> {(a and b) or (not a and not b)} : if and only if
+
+# ===== CONVERSION FUNCTIONS =====
+teach: to_int {n} -> {int(n)} : converts to integer
+teach: to_float {n} -> {float(n)} : converts to float
+teach: to_str {n} -> {str(n)} : converts to string
+teach: to_bool {n} -> {bool(n)} : converts to boolean
+teach: to_list {n} -> {list(n) if hasattr(n, '__iter__') and not isinstance(n, str) else [n]} : converts to list
+
+# ===== TEMPERATURE CONVERSIONS =====
+teach: c_to_f {c} -> {(c * 9/5) + 32} : Celsius to Fahrenheit
+teach: f_to_c {f} -> {(f - 32) * 5/9} : Fahrenheit to Celsius
+teach: c_to_k {c} -> {c + 273.15} : Celsius to Kelvin
+teach: k_to_c {k} -> {k - 273.15} : Kelvin to Celsius
+teach: f_to_k {f} -> {(f - 32) * 5/9 + 273.15} : Fahrenheit to Kelvin
+teach: k_to_f {k} -> {(k - 273.15) * 9/5 + 32} : Kelvin to Fahrenheit
+
+# ===== DISTANCE CONVERSIONS =====
+teach: km_to_miles {km} -> {km * 0.621371} : kilometers to miles
+teach: miles_to_km {miles} -> {miles * 1.60934} : miles to kilometers
+teach: m_to_ft {m} -> {m * 3.28084} : meters to feet
+teach: ft_to_m {ft} -> {ft * 0.3048} : feet to meters
+teach: cm_to_inch {cm} -> {cm * 0.393701} : centimeters to inches
+teach: inch_to_cm {inch} -> {inch * 2.54} : inches to centimeters
+
+# ===== WEIGHT CONVERSIONS =====
+teach: kg_to_lb {kg} -> {kg * 2.20462} : kilograms to pounds
+teach: lb_to_kg {lb} -> {lb * 0.453592} : pounds to kilograms
+teach: g_to_oz {g} -> {g * 0.035274} : grams to ounces
+teach: oz_to_g {oz} -> {oz * 28.3495} : ounces to grams
+
+# ===== TIME CALCULATIONS =====
+teach: hours_to_minutes {h} -> {h * 60} : hours to minutes
+teach: minutes_to_hours {m} -> {m / 60} : minutes to hours
+teach: days_to_hours {d} -> {d * 24} : days to hours
+teach: hours_to_days {h} -> {h / 24} : hours to days
+teach: weeks_to_days {w} -> {w * 7} : weeks to days
+teach: days_to_weeks {d} -> {d / 7} : days to weeks
+
+# ===== FINANCIAL CALCULATIONS =====
+teach: simple_interest {principal, rate, time} -> {principal * rate * time / 100} : calculates simple interest
+teach: compound_interest {principal, rate, time} -> {principal * ((1 + rate/100) ** time - 1)} : calculates compound interest
+teach: discount {price, percent} -> {price * (1 - percent/100)} : applies discount
+teach: markup {cost, percent} -> {cost * (1 + percent/100)} : applies markup
+teach: tax {amount, rate} -> {amount * (1 + rate/100)} : adds tax
+teach: tip {bill, percent} -> {bill * percent/100} : calculates tip
+teach: profit {revenue, cost} -> {revenue - cost} : calculates profit
+teach: margin {revenue, cost} -> {(revenue - cost) / revenue * 100 if revenue != 0 else 0} : profit margin percentage
+teach: roi {gain, cost} -> {(gain - cost) / cost * 100 if cost != 0 else 0} : return on investment
+
+# ===== GEOMETRY CALCULATIONS =====
+teach: circle_area {r} -> {3.14159 * r * r} : area of circle
+teach: circle_circumference {r} -> {2 * 3.14159 * r} : circumference of circle
+teach: rect_area {w, h} -> {w * h} : area of rectangle
+teach: rect_perimeter {w, h} -> {2 * (w + h)} : perimeter of rectangle
+teach: triangle_area {base, height} -> {0.5 * base * height} : area of triangle
+teach: sphere_volume {r} -> {4/3 * 3.14159 * r ** 3} : volume of sphere
+teach: cube_volume {side} -> {side ** 3} : volume of cube
+teach: cylinder_volume {r, h} -> {3.14159 * r * r * h} : volume of cylinder
+
+# ===== STATISTICS FUNCTIONS =====
+teach: mean {a, b} -> {(a + b) / 2} : mean of two numbers
+teach: mean3 {a, b, c} -> {(a + b + c) / 3} : mean of three numbers
+teach: variance2 {a, b} -> {((a - (a+b)/2) ** 2 + (b - (a+b)/2) ** 2) / 2} : variance of two numbers
+teach: range {a, b} -> {abs(a - b)} : range between two numbers
+
+# ===== UTILITY FUNCTIONS =====
+teach: swap {a, b} -> {[b, a]} : swaps two values
+teach: choose {condition, true_val, false_val} -> {true_val if condition else false_val} : conditional choice
+teach: default {value, default} -> {value if value is not None else default} : returns default if value is None
+teach: safe_divide {a, b, default} -> {a / b if b != 0 else default} : safe division with default
+teach: clamp {value, min_val, max_val} -> {max(min_val, min(value, max_val))} : clamps value between min and max
+teach: lerp {a, b, t} -> {a + (b - a) * t} : linear interpolation
+teach: normalize {value, min_val, max_val} -> {(value - min_val) / (max_val - min_val) if max_val != min_val else 0} : normalizes value to 0-1 range
+
+# ===== DATE/TIME PATTERNS =====
+teach: is_leap_year {year} -> {(year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)} : checks if year is leap year
+teach: days_in_month {month, year} -> {31 if month in [1,3,5,7,8,10,12] else 30 if month in [4,6,9,11] else 29 if is_leap_year(year) else 28} : days in month
+teach: age_in_days {years} -> {years * 365.25} : approximate age in days
+teach: age_in_hours {years} -> {years * 365.25 * 24} : approximate age in hours
+
+# ===== FUN PATTERNS =====
+teach: greet {name} -> {"Hello, " + str(name) + "!"} : greets someone
+teach: farewell {name} -> {"Goodbye, " + str(name) + "!"} : says goodbye
+teach: compliment {name} -> {str(name) + " is awesome!"} : compliments someone
+teach: encourage {name} -> {"You can do it, " + str(name) + "!"} : encourages someone
+teach: celebrate {achievement} -> {"🎉 Congratulations on " + str(achievement) + "! 🎉"} : celebrates achievement
+
+# ===== ENCODING PATTERNS =====
+teach: to_binary {n} -> {bin(int(n))} : converts to binary
+teach: to_hex {n} -> {hex(int(n))} : converts to hexadecimal
+teach: to_octal {n} -> {oct(int(n))} : converts to octal
+teach: from_binary {s} -> {int(str(s), 2)} : converts from binary
+teach: from_hex {s} -> {int(str(s), 16)} : converts from hexadecimal
+teach: from_octal {s} -> {int(str(s), 8)} : converts from octal
+
+# ===== VALIDATION PATTERNS =====
+teach: is_numeric {s} -> {str(s).replace('.','').replace('-','').isdigit()} : checks if string is numeric
+teach: is_alpha {s} -> {str(s).isalpha()} : checks if string contains only letters
+teach: is_alphanumeric {s} -> {str(s).isalnum()} : checks if string is alphanumeric
+teach: is_empty {s} -> {len(str(s).strip()) == 0} : checks if string is empty or whitespace
+
+# ===== ADVANCED MATH =====
+teach: gcd {a, b} -> {a if b == 0 else gcd(b, a % b)} : greatest common divisor
+teach: lcm {a, b} -> {abs(a * b) // gcd(a, b) if gcd(a, b) != 0 else 0} : least common multiple
+teach: is_prime {n} -> {n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))} : checks if number is prime
+teach: fibonacci {n} -> {n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)} : nth Fibonacci number
+
+# ===== PERCENTAGE CALCULATIONS =====
+teach: percent_of {percent, total} -> {percent * total / 100} : calculates percent of total
+teach: what_percent {part, whole} -> {part / whole * 100 if whole != 0 else 0} : calculates percentage
+teach: percent_change {old, new} -> {(new - old) / old * 100 if old != 0 else 0} : calculates percent change
+teach: percent_increase {value, percent} -> {value * (1 + percent/100)} : increases by percentage
+teach: percent_decrease {value, percent} -> {value * (1 - percent/100)} : decreases by percentage
+
+# ===== SCORE/GRADE CALCULATIONS =====
+teach: letter_grade {score} -> {"A" if score >= 90 else "B" if score >= 80 else "C" if score >= 70 else "D" if score >= 60 else "F"} : converts score to letter grade
+teach: pass_fail {score, threshold} -> {"Pass" if score >= threshold else "Fail"} : determines pass or fail
+teach: grade_point {letter} -> {4.0 if letter == "A" else 3.0 if letter == "B" else 2.0 if letter == "C" else 1.0 if letter == "D" else 0.0} : converts letter grade to GPA
+
+# ===== COLOR PATTERNS (RGB) =====
+teach: rgb_to_hex {r, g, b} -> {"#{:02x}{:02x}{:02x}".format(int(r), int(g), int(b))} : converts RGB to hex color
+teach: gray_value {r, g, b} -> {int(0.299 * r + 0.587 * g + 0.114 * b)} : converts RGB to grayscale
+
+# ===== PHYSICS CALCULATIONS =====
+teach: speed {distance, time} -> {distance / time if time != 0 else 0} : calculates speed
+teach: acceleration {v_final, v_initial, time} -> {(v_final - v_initial) / time if time != 0 else 0} : calculates acceleration
+teach: force {mass, acceleration} -> {mass * acceleration} : calculates force (F=ma)
+teach: kinetic_energy {mass, velocity} -> {0.5 * mass * velocity ** 2} : calculates kinetic energy
+teach: potential_energy {mass, height} -> {mass * 9.8 * height} : calculates potential energy
+
+# ===== CHEMISTRY PATTERNS =====
+teach: celsius_to_kelvin {c} -> {c + 273.15} : converts Celsius to Kelvin
+teach: moles {mass, molar_mass} -> {mass / molar_mass if molar_mass != 0 else 0} : calculates moles
+teach: concentration {moles, volume} -> {moles / volume if volume != 0 else 0} : calculates concentration
+
+# End of teach.txt
+# To use: Copy each line starting with "teach:" and paste into Zeus CLI

@@ -1,0 +1,32 @@
+[Unit]
+Description=ICON-EU Weather Forecast Processor
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+User=sellinios
+Group=sellinios
+WorkingDirectory=/home/sellinios/development/projects/aethra/backend
+Environment="PATH=/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+Environment="DB_PASSWORD=kairos123"
+Environment="POSTGRES_PASSWORD=kairos123"
+ExecStart=/home/sellinios/development/projects/aethra/backend/run_icon.sh
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+MemoryLimit=4G
+CPUQuota=200%
+
+# Timeout for long-running processing
+TimeoutStartSec=3600
+
+# Restart policy
+Restart=on-failure
+RestartSec=300
+
+[Install]
+WantedBy=multi-user.target

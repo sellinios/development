@@ -1,0 +1,27 @@
+# Exclude patterns for backup
+node_modules/
+venv/
+zeus_env/
+__pycache__/
+*.pyc
+.git/objects/
+*.log
+*.tmp
+*.swp
+.DS_Store
+# Large data files
+*.grib2
+*.grib2.*.idx
+# Build artifacts
+dist/
+build/
+*.o
+*.so
+*.exe
+# IDE files
+.idea/
+.vscode/
+# Go build cache
+go/pkg/
+# Database files (if you want to exclude them)
+# *.db
