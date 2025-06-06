@@ -411,11 +411,16 @@ type ForecastPoint struct {
 
 // convertForecastData converts models.ForecastData to WeatherDataPoint
 func convertForecastData(fd models.ForecastData) WeatherDataPoint {
-	// Extract temperature
-	tempK := fd.GetEffectiveTemperature()
-	tempC := 0.0
-	if tempK > 0 {
-		tempC = tempK - 273.15
+	// Extract temperature - t_2m is already in Celsius
+	tempC := fd.Temperature
+	
+	// If primary temperature is not available, check alternatives
+	if tempC == 0 {
+		// GetEffectiveTemperature returns Kelvin, so convert to Celsius
+		tempK := fd.GetEffectiveTemperature()
+		if tempK > 0 {
+			tempC = tempK - 273.15
+		}
 	}
 	
 	// Calculate wind speed and direction

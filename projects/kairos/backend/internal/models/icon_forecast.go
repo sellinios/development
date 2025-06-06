@@ -71,7 +71,8 @@ func (fd *ForecastData) GetEffectiveTemperature() float64 {
 	const MAX_CELSIUS = 60.0
 	
 	// First check the primary temperature field (t_2m - in Celsius from ICON-EU)
-	if fd.Temperature != 0 || (fd.Temperature == 0 && fd.Temperature > -0.1 && fd.Temperature < 0.1) {
+	// We need to handle 0°C as a valid temperature
+	if fd.Temperature != 0 || (fd.Temperature == 0 && (fd.HasWindData() || fd.Humidity > 0)) {
 		// Primary field is in Celsius, so convert to Kelvin
 		if fd.Temperature >= MIN_CELSIUS && fd.Temperature <= MAX_CELSIUS {
 			return fd.Temperature + 273.15
