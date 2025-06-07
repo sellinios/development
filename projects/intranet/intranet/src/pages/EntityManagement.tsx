@@ -393,7 +393,7 @@ const EntityManagement: React.FC = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g., Epsilon Hellas, IT Department"
+                  placeholder="e.g., Aethra Tech, IT Department"
                   disabled={formLoading}
                 />
               </div>

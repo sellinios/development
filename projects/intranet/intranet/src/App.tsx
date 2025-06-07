@@ -27,6 +27,7 @@ const Visits = lazy(() => import('./pages/Visits'));
 const Communication = lazy(() => import('./pages/Communication'));
 const RoleManagement = lazy(() => import('./pages/RoleManagement'));
 const PagePermissions = lazy(() => import('./pages/PagePermissions'));
+const ModuleManagement = lazy(() => import('./pages/ModuleManagement'));
 const HRManagement = lazy(() => import('./pages/HRManagement'));
 const Assets = lazy(() => import('./pages/Assets'));
 const ITSupport = lazy(() => import('./pages/ITSupport'));
@@ -48,7 +49,7 @@ const PageLoader = () => (
 function App() {
   console.log('App component rendering');
   return (
-    <Router basename="/intranet">
+    <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
@@ -68,6 +69,11 @@ function App() {
           <Route path="admin/page-access" element={
             <Suspense fallback={<PageLoader />}>
               <PagePermissions />
+            </Suspense>
+          } />
+          <Route path="admin/modules" element={
+            <Suspense fallback={<PageLoader />}>
+              <ModuleManagement />
             </Suspense>
           } />
           <Route path="entities" element={

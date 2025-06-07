@@ -9,7 +9,7 @@ BACKUP_BASE="$HOME/development/backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="$BACKUP_BASE/backup_$DATE"
 LATEST_LINK="$BACKUP_BASE/latest"
-MAX_BACKUPS=7  # Keep 7 backups
+MAX_BACKUPS=2  # Keep 2 backups
 
 # Create backup directory if it doesn't exist
 mkdir -p "$BACKUP_BASE"
@@ -20,6 +20,8 @@ EXCLUDE_FILE="$HOME/development/scripts/.backup-exclude"
 # Create exclusions file if it doesn't exist
 cat > "$EXCLUDE_FILE" << 'EOF'
 # Exclude patterns for backup
+# CRITICAL: Exclude backups directory to prevent recursive backup!
+backups/
 node_modules/
 venv/
 zeus_env/

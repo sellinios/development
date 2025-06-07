@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 // Create axios instance with proper configuration
 const api: AxiosInstance = axios.create({
-  baseURL: 'https://site.epsilonhellas.com/intranet/api/',
+  baseURL: 'https://intranet.aethra.dev/api/',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',

@@ -81,6 +81,7 @@ func main() {
 			// Entity management routes
 			entityHandler := handlers.NewEntityHandler(database.DB)
 			userEntityHandler := handlers.NewUserEntityHandler(database.DB)
+			moduleHandler := handlers.NewModuleHandler(database.DB)
 			
 			entities := protected.Group("/entities")
 			{
@@ -321,6 +322,14 @@ func main() {
 				notifications.GET("/", handlers.GetNotifications)
 				notifications.PUT("/:id/read", handlers.MarkNotificationRead)
 				notifications.PUT("/mark-all-read", handlers.MarkAllNotificationsRead)
+			}
+
+			// Module management routes
+			modules := protected.Group("/modules")
+			{
+				modules.GET("/", moduleHandler.GetModules)
+				modules.POST("/", middleware.AdminOnly(), moduleHandler.UpdateModules)
+				modules.GET("/enabled", moduleHandler.GetEnabledModules)
 			}
 
 			// Add more routes for other modules...

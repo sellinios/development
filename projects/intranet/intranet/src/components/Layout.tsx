@@ -65,9 +65,9 @@ const Layout: React.FC = () => {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              {/* Epsilon in White with nice font */}
+              {/* Aethra in White with nice font */}
               <h1 className="text-2xl font-light text-white tracking-wider">
-                EPSILON
+                AETHRA
               </h1>
             </div>
             
@@ -78,7 +78,7 @@ const Layout: React.FC = () => {
               </span>
               {/* Home Button */}
               <a
-                href="/intranet/home"
+                href="/home"
                 className="text-white hover:bg-gray-800 p-2 rounded-md transition-colors duration-200"
                 title="Home"
               >
@@ -93,7 +93,7 @@ const Layout: React.FC = () => {
               {/* Admin Panel Button - Only for superadmins */}
               {user?.role === 'superadmin' && (
                 <a
-                  href="/intranet/admin"
+                  href="/admin"
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                 >
                   Admin Panel

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Users, Shield, FileKey } from 'lucide-react';
+import { Building2, Users, Shield, FileKey, ToggleLeft } from 'lucide-react';
 import { usePermissions } from '../hooks/usePermissions';
 import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
@@ -44,6 +44,15 @@ const AdminPanel: React.FC = () => {
       bgColor: 'bg-orange-600',
       hoverColor: 'hover:bg-orange-700',
       requiresPermission: () => hasPermission('roles', 'update') || isAdmin(),
+    },
+    {
+      title: 'Module Management',
+      description: 'Enable or disable main system modules',
+      icon: ToggleLeft,
+      path: '/admin/modules',
+      bgColor: 'bg-pink-600',
+      hoverColor: 'hover:bg-pink-700',
+      requiresPermission: () => isAdmin(),
     },
   ];
 

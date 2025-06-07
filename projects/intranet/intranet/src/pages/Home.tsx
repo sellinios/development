@@ -1,60 +1,119 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Database, Users, Package, HeadphonesIcon, Globe } from 'lucide-react';
 import { usePermissions } from '../hooks/usePermissions';
 import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
+import api from '../lib/api';
+
+interface Module {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  path: string;
+  enabled: boolean;
+}
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const { canViewPage, loading } = usePermissions();
+  const { canViewPage, loading: permissionsLoading } = usePermissions();
+  const [modules, setModules] = useState<Module[]>([]);
+  const [modulesLoading, setModulesLoading] = useState(true);
 
-  const sections = [
-    {
-      title: 'CRM',
-      description: 'Manage customer relationships, accounts, ships, and more',
-      icon: Database,
-      path: '/crm',
-      bgColor: 'bg-purple-600',
-      hoverColor: 'hover:bg-purple-700',
-      requiresPermission: () => canViewPage('crm'),
+  // Icon mapping
+  const iconMap: { [key: string]: React.FC<any> } = {
+    Database,
+    Users,
+    Package,
+    HeadphonesIcon,
+    Globe,
+  };
+
+  // Color mapping for modules
+  const colorMap: { [key: string]: { bgColor: string; hoverColor: string } } = {
+    crm: { bgColor: 'bg-purple-600', hoverColor: 'hover:bg-purple-700' },
+    hr: { bgColor: 'bg-blue-600', hoverColor: 'hover:bg-blue-700' },
+    assets: { bgColor: 'bg-green-600', hoverColor: 'hover:bg-green-700' },
+    support: { bgColor: 'bg-orange-600', hoverColor: 'hover:bg-orange-700' },
+    websites: { bgColor: 'bg-indigo-600', hoverColor: 'hover:bg-indigo-700' },
+  };
+
+  useEffect(() => {
+    fetchEnabledModules();
+  }, []);
+
+  const fetchEnabledModules = async () => {
+    try {
+      const response = await api.get('/modules/enabled');
+      setModules(response.data);
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+      // Fall back to default modules if API fails
+      setModules([
+        {
+          id: 'crm',
+          name: 'CRM',
+          description: 'Manage customer relationships, accounts, ships, and more',
+          icon: 'Database',
+          path: '/crm',
+          enabled: true,
+        },
+        {
+          id: 'hr',
+          name: 'HR Management',
+          description: 'Employee management, leave tracking, and organizational structure',
+          icon: 'Users',
+          path: '/hr',
+          enabled: true,
+        },
+        {
+          id: 'assets',
+          name: 'Assets',
+          description: 'Track and manage company assets, equipment, and resources',
+          icon: 'Package',
+          path: '/assets',
+          enabled: true,
+        },
+        {
+          id: 'support',
+          name: 'Support & R&D',
+          description: 'Technical support, R&D projects, and issue tracking',
+          icon: 'HeadphonesIcon',
+          path: '/support',
+          enabled: true,
+        },
+        {
+          id: 'websites',
+          name: 'Website Management',
+          description: 'Manage websites, content, news, and social media',
+          icon: 'Globe',
+          path: '/websites',
+          enabled: true,
+        },
+      ]);
+    } finally {
+      setModulesLoading(false);
+    }
+  };
+
+  // Convert modules to sections format
+  const sections = modules.map(module => ({
+    title: module.name,
+    description: module.description,
+    icon: iconMap[module.icon] || Database,
+    path: module.path,
+    bgColor: colorMap[module.id]?.bgColor || 'bg-gray-600',
+    hoverColor: colorMap[module.id]?.hoverColor || 'hover:bg-gray-700',
+    requiresPermission: () => {
+      // Special permission check for websites module
+      if (module.id === 'websites') {
+        return canViewPage('websites') || canViewPage('content');
+      }
+      return canViewPage(module.id);
     },
-    {
-      title: 'HR Management',
-      description: 'Employee management, leave tracking, and organizational structure',
-      icon: Users,
-      path: '/hr',
-      bgColor: 'bg-blue-600',
-      hoverColor: 'hover:bg-blue-700',
-      requiresPermission: () => canViewPage('hr'),
-    },
-    {
-      title: 'Assets',
-      description: 'Track and manage company assets, equipment, and resources',
-      icon: Package,
-      path: '/assets',
-      bgColor: 'bg-green-600',
-      hoverColor: 'hover:bg-green-700',
-      requiresPermission: () => canViewPage('assets'),
-    },
-    {
-      title: 'Support & R&D',
-      description: 'Technical support, R&D projects, and issue tracking',
-      icon: HeadphonesIcon,
-      path: '/support',
-      bgColor: 'bg-orange-600',
-      hoverColor: 'hover:bg-orange-700',
-      requiresPermission: () => canViewPage('support'),
-    },
-    {
-      title: 'Website Management',
-      description: 'Manage websites, content, news, and social media',
-      icon: Globe,
-      path: '/websites',
-      bgColor: 'bg-indigo-600',
-      hoverColor: 'hover:bg-indigo-700',
-      requiresPermission: () => canViewPage('websites') || canViewPage('content'),
-    },
-  ];
+  }));
+
+  const loading = permissionsLoading || modulesLoading;
 
   if (loading) {
     return (
@@ -69,7 +128,7 @@ const Home: React.FC = () => {
   return (
     <PageTemplate>
       <PageHeader 
-        title="Welcome to Epsilon Intranet"
+        title="Welcome to Aethra Intranet"
         subtitle="Access your applications and services"
       />
 
