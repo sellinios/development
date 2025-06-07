@@ -9,6 +9,7 @@ import api from '../lib/api';
 import { format } from 'date-fns';
 import ColumnManager, { Column } from '../components/ColumnManager';
 import DynamicTable from '../components/DynamicTable';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface MediaFile {
   id: number;
@@ -348,46 +349,52 @@ const MediaManagement: React.FC = () => {
   const totalPages = useMemo(() => Math.ceil(totalMedia / 50), [totalMedia]);
 
   if (!website) {
-    return <div>Loading...</div>;
+    return (
+      <PageTemplate maxWidth="wide">
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <button
-            onClick={() => navigate(`/websites`)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back to Websites
-          </button>
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">{website.name} - Media Library</h1>
-              <p className="mt-2 text-gray-600">Manage images and media files for {website.domain}</p>
-            </div>
-            <div className="flex gap-2">
+    <PageTemplate maxWidth="wide">
+      <div className="mb-4">
+        <button
+          onClick={() => navigate(`/websites`)}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Back to Websites
+        </button>
+      </div>
+      
+      <PageHeader 
+        title={`${website.name} - Media Library`}
+        subtitle={`Manage images and media files for ${website.domain}`}
+        actions={
+          <div className="flex gap-2">
+            <button
+              onClick={handleConvertExisting}
+              disabled={converting}
+              className={`${TEMPLATE_STYLES.buttons.secondary} flex items-center gap-2 disabled:opacity-50`}
+            >
+              <RefreshCw className={`w-5 h-5 ${converting ? 'animate-spin' : ''}`} />
+              Convert to WebP
+            </button>
+            {selectedFiles.length > 0 && (
               <button
-                onClick={handleConvertExisting}
-                disabled={converting}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50"
+                onClick={handleBulkDelete}
+                className={`${TEMPLATE_STYLES.buttons.danger} flex items-center gap-2`}
               >
-                <RefreshCw className={`w-5 h-5 ${converting ? 'animate-spin' : ''}`} />
-                Convert to WebP
+                <Trash2 className="w-5 h-5" />
+                Delete ({selectedFiles.length})
               </button>
-              {selectedFiles.length > 0 && (
-                <button
-                  onClick={handleBulkDelete}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  <Trash2 className="w-5 h-5" />
-                  Delete ({selectedFiles.length})
-                </button>
-              )}
-            </div>
+            )}
           </div>
-        </div>
+        }
+      />
 
         {/* Upload Area */}
         <div
@@ -732,8 +739,7 @@ const MediaManagement: React.FC = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </PageTemplate>
   );
 };
 

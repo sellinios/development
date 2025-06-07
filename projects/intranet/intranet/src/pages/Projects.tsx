@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 import { Folder, Plus, Edit2, Trash2, Users, Calendar, DollarSign, BarChart3 } from 'lucide-react';
 
 interface Department {
@@ -131,21 +132,33 @@ const Projects: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <PageTemplate variant="tight">
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
+    );
+  }
+  
   if (error) return <div className="text-red-600">{error}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Projects</h1>
-        <button
-          onClick={handleCreate}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
-        >
-          <Plus className="w-4 h-4" />
-          New Project
-        </button>
-      </div>
+    <PageTemplate variant="tight">
+      <PageHeader 
+        title="Projects"
+        subtitle="Track and manage development projects and initiatives"
+        actions={
+          <button
+            onClick={handleCreate}
+            className={TEMPLATE_STYLES.buttons.primary}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            New Project
+          </button>
+        }
+      />
 
       {/* Filters */}
       <div className="bg-white p-4 rounded-lg shadow mb-6">
@@ -155,7 +168,7 @@ const Projects: React.FC = () => {
             <select
               value={filters.type}
               onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className={TEMPLATE_STYLES.forms.select}
             >
               <option value="">All Types</option>
               <option value="software">Software</option>
@@ -204,7 +217,7 @@ const Projects: React.FC = () => {
           <p className="text-gray-500 mb-4">Get started by creating your first project</p>
           <button
             onClick={handleCreate}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 inline-flex items-center gap-2"
+            className={`${TEMPLATE_STYLES.buttons.primary} inline-flex items-center`}
           >
             <Plus className="w-4 h-4" />
             Create Project
@@ -303,7 +316,7 @@ const Projects: React.FC = () => {
           ))}
         </div>
       )}
-    </div>
+    </PageTemplate>
   );
 };
 

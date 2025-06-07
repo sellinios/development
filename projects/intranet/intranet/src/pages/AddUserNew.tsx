@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Save, User, Mail, Shield, Key, UserPlus } from 'lucide-react';
 import api from '../lib/api';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface UserFormNew {
   username: string;
@@ -85,22 +86,23 @@ const AddUserNew: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-6">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 sm:mb-6">
-          <button
-            onClick={() => navigate('/users')}
-            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Back to Users
-          </button>
-        </div>
+    <PageTemplate>
+      <div className="mb-4 sm:mb-6">
+        <button
+          onClick={() => navigate('/users')}
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Back to Users
+        </button>
+      </div>
 
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-200">
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Create New User</h1>
-          </div>
+      <PageHeader 
+        title="Create New User" 
+        subtitle="Add a new system user account" 
+      />
+
+      <div className="bg-white shadow rounded-lg mt-6">
 
           <form key="add-new-user-form" onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             {/* Employee Info Alert */}
@@ -261,14 +263,14 @@ const AddUserNew: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/users')}
-                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className={`w-full sm:w-auto ${TEMPLATE_STYLES.buttons.secondary}`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={`w-full sm:w-auto ${TEMPLATE_STYLES.buttons.primary}`}
                 >
                   {saving ? (
                     <>
@@ -289,8 +291,7 @@ const AddUserNew: React.FC = () => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+    </PageTemplate>
   );
 };
 

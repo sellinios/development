@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../lib/api';
 import { Shield, Save, RefreshCw, FileText, Users, Building, Package, Briefcase, HeadphonesIcon, Settings } from 'lucide-react';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface Role {
   id: number;
@@ -210,24 +211,24 @@ const PagePermissions: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
+      <PageTemplate>
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Permission Management</h1>
-            <p className="text-gray-600">Configure role permissions and page access for the entire system</p>
-          </div>
+    <PageTemplate>
+      <PageHeader 
+        title="Permission Management"
+        subtitle="Configure role permissions and page access for the entire system"
+        actions={
           <div className="flex gap-2">
             <button
               onClick={loadRoles}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+              className={`${TEMPLATE_STYLES.buttons.secondary} flex items-center gap-2`}
             >
               <RefreshCw className="w-4 h-4" />
               Refresh
@@ -236,15 +237,15 @@ const PagePermissions: React.FC = () => {
               <button
                 onClick={savePermissions}
                 disabled={saving}
-                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+                className={`${TEMPLATE_STYLES.buttons.primary} flex items-center gap-2 disabled:opacity-50`}
               >
                 <Save className="w-4 h-4" />
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>
             )}
           </div>
-        </div>
-      </div>
+        }
+      />
 
       <div className="space-y-4">
         {roles.map((role) => {
@@ -341,7 +342,7 @@ const PagePermissions: React.FC = () => {
           <p>• <strong>Manage:</strong> Full administrative access</p>
         </div>
       </div>
-    </div>
+    </PageTemplate>
   );
 };
 

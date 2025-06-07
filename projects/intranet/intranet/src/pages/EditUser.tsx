@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, User, Mail, Phone, MapPin, Building2, Shield, Calendar } from 'lucide-react';
 import api from '../lib/api';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface User {
   id: number;
@@ -173,37 +174,42 @@ const EditUser: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
+      <PageTemplate>
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
     );
   }
 
   if (!user) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500">User not found</p>
-      </div>
+      <PageTemplate>
+        <div className="text-center py-12">
+          <p className="text-gray-500">User not found</p>
+        </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-6">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 sm:mb-6">
-          <button
-            onClick={() => navigate('/users')}
-            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Back to Users
-          </button>
-        </div>
+    <PageTemplate>
+      <div className="mb-4 sm:mb-6">
+        <button
+          onClick={() => navigate('/users')}
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Back to Users
+        </button>
+      </div>
 
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Edit User</h1>
-          </div>
+      <PageHeader 
+        title="Edit User" 
+        subtitle="Modify user account details" 
+      />
+
+      <div className="bg-white shadow rounded-lg mt-6">
 
             <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6">
           {/* Personal Information */}
@@ -427,14 +433,14 @@ const EditUser: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/users')}
-                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className={`w-full sm:w-auto ${TEMPLATE_STYLES.buttons.secondary}`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                  className={`w-full sm:w-auto ${TEMPLATE_STYLES.buttons.primary}`}
                 >
                   {saving ? (
                     <>
@@ -451,8 +457,7 @@ const EditUser: React.FC = () => {
               </div>
             </form>
           </div>
-      </div>
-    </div>
+    </PageTemplate>
   );
 };
 

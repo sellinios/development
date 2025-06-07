@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, User, Phone, MapPin, Calendar, Building, Briefcase } from 'lucide-react';
 import api from '../lib/api';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface Entity {
   id: number;
@@ -214,29 +215,32 @@ const EditEmployee: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
+      <PageTemplate>
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-6">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 sm:mb-6">
-          <button
-            onClick={() => navigate('/hr/employees')}
-            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Back to Employees
-          </button>
-        </div>
+    <PageTemplate>
+      <div className="mb-4 sm:mb-6">
+        <button
+          onClick={() => navigate('/hr/employees')}
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Back to Employees
+        </button>
+      </div>
 
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-200">
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Edit Employee</h1>
-          </div>
+      <PageHeader 
+        title="Edit Employee" 
+        subtitle="Update employee information" 
+      />
+
+      <div className="bg-white shadow rounded-lg mt-6">
 
           <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6">
             {/* Personal Information */}
@@ -539,14 +543,14 @@ const EditEmployee: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/hr/employees')}
-                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                className={TEMPLATE_STYLES.buttons.secondary}
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
+                className={TEMPLATE_STYLES.buttons.primary}
               >
                 {saving ? (
                   <>
@@ -566,8 +570,7 @@ const EditEmployee: React.FC = () => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+    </PageTemplate>
   );
 };
 

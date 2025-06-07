@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Building2, Users, Briefcase, FolderTree, ChevronRight, ChevronDown, Edit, Trash2, UserPlus } from 'lucide-react';
 import api from '../lib/api';
 import { Entity, UserEntity } from '../types';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 const EntityManagement: React.FC = () => {
   const [entities, setEntities] = useState<Entity[]>([]);
@@ -252,24 +253,29 @@ const EntityManagement: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
+      <PageTemplate maxWidth="wide">
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Organizations Administration</h1>
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm sm:text-base w-full sm:w-auto justify-center"
-        >
-          <Plus className="w-4 sm:w-5 h-4 sm:h-5" />
-          Create Organization
-        </button>
-      </div>
+    <PageTemplate maxWidth="wide">
+      <PageHeader 
+        title="Organizations Administration"
+        subtitle="Manage your organization structure and hierarchy"
+        actions={
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className={TEMPLATE_STYLES.buttons.primary + " flex items-center gap-2"}
+          >
+            <Plus className="w-4 h-4" />
+            Create Organization
+          </button>
+        }
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -453,14 +459,14 @@ const EntityManagement: React.FC = () => {
                     setShowEditModal(false);
                     setFormError(null);
                   }}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  className={TEMPLATE_STYLES.buttons.secondary + " disabled:opacity-50"}
                   disabled={formLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                  className={TEMPLATE_STYLES.buttons.primary + " disabled:opacity-50 flex items-center gap-2"}
                   disabled={formLoading}
                 >
                   {formLoading && (
@@ -476,7 +482,7 @@ const EntityManagement: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </PageTemplate>
   );
 };
 

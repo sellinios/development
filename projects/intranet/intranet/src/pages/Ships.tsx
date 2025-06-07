@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Ship } from '../types';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 import ColumnManager, { Column } from '../components/ColumnManager';
 import DynamicTable from '../components/DynamicTable';
 import api from '../lib/api';
@@ -164,34 +165,30 @@ const Ships: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-gray-500">Loading ships...</div>
-          </div>
+      <PageTemplate variant="tight">
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="py-6">
-      <div className="mx-auto px-4 sm:px-6 md:px-8">
-        <div className="md:flex md:items-center md:justify-between mb-6">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-semibold text-gray-900">Ships</h1>
-          </div>
-          <div className="mt-4 flex md:mt-0 md:ml-4">
-            <ColumnManager
-              columns={columns}
-              onColumnsChange={setColumns}
-              storageKey="ships-visible-columns"
-            />
-          </div>
-        </div>
+    <PageTemplate variant="tight">
+      <PageHeader 
+        title="Ships"
+        subtitle="Manage vessel information and fleet operations"
+        actions={
+          <ColumnManager
+            columns={columns}
+            onColumnsChange={setColumns}
+            storageKey="ships-visible-columns"
+          />
+        }
+      />
 
-        {/* Filters and Search */}
-        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3 max-w-4xl">
+      {/* Filters and Search */}
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3 max-w-4xl">
           <div>
             <label htmlFor="search" className="block text-sm font-medium text-gray-700">
               Search
@@ -200,7 +197,7 @@ const Ships: React.FC = () => {
               type="text"
               name="search"
               id="search"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className={TEMPLATE_STYLES.forms.input}
               placeholder="Search by name, IMO, or P&I Club"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -213,7 +210,7 @@ const Ships: React.FC = () => {
             <select
               id="filterType"
               name="filterType"
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              className={TEMPLATE_STYLES.forms.select}
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
             >
@@ -232,7 +229,7 @@ const Ships: React.FC = () => {
               type="text"
               name="filterPrincipal"
               id="filterPrincipal"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className={TEMPLATE_STYLES.forms.input}
               placeholder="Filter by Principal ID"
               value={filterPrincipalId}
               onChange={(e) => setFilterPrincipalId(e.target.value)}
@@ -240,26 +237,26 @@ const Ships: React.FC = () => {
           </div>
         </div>
 
-        {/* Ships Dynamic Table */}
-        <DynamicTable
-          columns={columns}
-          data={tableData}
-          renderCell={(row, column) => {
-            if (column.key === 'actions') {
-              return row.actions;
-            }
-            return row[column.key];
-          }}
-        />
+      {/* Ships Dynamic Table */}
+      <DynamicTable
+        columns={columns}
+        data={tableData}
+        renderCell={(row, column) => {
+          if (column.key === 'actions') {
+            return row.actions;
+          }
+          return row[column.key];
+        }}
+      />
 
-        {filteredShips.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No ships found matching your criteria.</p>
-          </div>
-        )}
+      {filteredShips.length === 0 && (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No ships found matching your criteria.</p>
+        </div>
+      )}
 
-        {/* Summary Stats */}
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-4">
+      {/* Summary Stats */}
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-4">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-medium text-gray-500 truncate">
@@ -302,7 +299,7 @@ const Ships: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </PageTemplate>
   );
 };
 

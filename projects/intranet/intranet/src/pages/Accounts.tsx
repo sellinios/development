@@ -5,6 +5,7 @@ import api from '../lib/api';
 import ColumnManager, { Column } from '../components/ColumnManager';
 import DynamicTable from '../components/DynamicTable';
 import AccountModal from '../components/AccountModal';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface Principal {
   system_id: number;
@@ -149,24 +150,21 @@ const Accounts: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-gray-500">Loading accounts...</div>
-          </div>
+      <PageTemplate maxWidth="full">
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
         </div>
-      </div>
+      </PageTemplate>
     );
   }
 
   return (
-    <div className="py-6">
-      <div className="mx-auto px-4 sm:px-6 md:px-8">
-        <div className="md:flex md:items-center md:justify-between mb-6">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-semibold text-gray-900">Accounts</h1>
-          </div>
-          <div className="mt-4 flex md:mt-0 md:ml-4 space-x-3">
+    <PageTemplate maxWidth="full">
+      <PageHeader 
+        title="Accounts"
+        subtitle="Manage customer relationships, accounts, and business opportunities"
+        actions={
+          <div className="flex items-center gap-4">
             <ColumnManager
               columns={visibleColumns}
               onColumnsChange={setVisibleColumns}
@@ -174,13 +172,14 @@ const Accounts: React.FC = () => {
             />
             <button
               onClick={handleAdd}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={TEMPLATE_STYLES.buttons.primary + " flex items-center"}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Account
             </button>
           </div>
-        </div>
+        }
+      />
 
         {/* Filters and Search */}
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl">
@@ -344,8 +343,7 @@ const Accounts: React.FC = () => {
           principal={selectedPrincipal}
           mode={modalMode}
         />
-      </div>
-    </div>
+    </PageTemplate>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   BarChart3, Folder, Package, CheckSquare, MessageSquare,
   ChevronRight, DollarSign
 } from 'lucide-react';
+import { PageTemplate, PageHeader, TEMPLATE_STYLES } from '../components/templates';
 
 interface Project {
   id?: number;
@@ -182,27 +183,38 @@ const ProjectDetail: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <PageTemplate>
+        <div className={TEMPLATE_STYLES.states.loading}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+      </PageTemplate>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate('/projects')}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <h1 className="text-3xl font-bold">
-            {isNew ? 'New Project' : project.name}
-          </h1>
-        </div>
+    <PageTemplate>
+      <div className="mb-4 sm:mb-6">
+        <button
+          onClick={() => navigate('/projects')}
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Back to Projects
+        </button>
+      </div>
+
+      <PageHeader 
+        title={isNew ? 'New Project' : project.name}
+        subtitle="Project details and information"
+      />
+      
+      <div className="flex justify-end mb-6">
         <button
           onClick={handleSubmit}
           disabled={saving}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
+          className={TEMPLATE_STYLES.buttons.primary}
         >
           <Save className="w-4 h-4" />
           {saving ? 'Saving...' : 'Save'}
@@ -550,7 +562,7 @@ const ProjectDetail: React.FC = () => {
           <p className="text-gray-500">Team management coming soon...</p>
         </div>
       )}
-    </div>
+    </PageTemplate>
   );
 };
 

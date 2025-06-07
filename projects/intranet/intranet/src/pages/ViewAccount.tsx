@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Edit2, Building2, Globe, Phone, Mail, Calendar, Users, Ship } from 'lucide-react';
 import api from '../lib/api';
+import { PageTemplate, PageHeader } from '../components/templates';
 
 interface Principal {
   system_id: number;
@@ -76,37 +77,40 @@ const ViewAccount: React.FC = () => {
     );
   }
 
+  const accountSubtitle = principal.type_of_principal 
+    ? `${principal.type_of_principal} • ${principal.principal_id || 'No ID'}`
+    : `Account ID: ${principal.principal_id || 'No ID'}`;
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="bg-white shadow rounded-lg mb-6">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => navigate('/crm/accounts')}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <ArrowLeft className="h-6 w-6" />
-                </button>
-                <h1 className="text-2xl font-bold text-gray-900">{principal.principal_name}</h1>
-                {principal.software_id && (
-                  <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                    Customer
-                  </span>
-                )}
-              </div>
-              <Link
-                to={`/crm/accounts/${id}/edit`}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-              >
-                <Edit2 className="h-4 w-4 mr-2" />
-                Edit
-              </Link>
-            </div>
+    <PageTemplate>
+      <PageHeader 
+        title={principal.principal_name}
+        subtitle={accountSubtitle}
+        actions={
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => navigate('/crm/accounts')}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </button>
+            <Link
+              to={`/crm/accounts/${id}/edit`}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <Edit2 className="h-4 w-4 mr-2" />
+              Edit
+            </Link>
           </div>
-        </div>
+        }
+      >
+        {principal.software_id && (
+          <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+            Customer
+          </span>
+        )}
+      </PageHeader>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -323,7 +327,7 @@ const ViewAccount: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </PageTemplate>
   );
 };
 
